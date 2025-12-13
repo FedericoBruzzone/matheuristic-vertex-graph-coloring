@@ -97,7 +97,7 @@
 
   - A partial $k$-coloring $(c)$ is _feasible_ if $forall i < j, (v_i, v_j) in E ==> c_i != c_j or c_i = c_j = -1$.
 
-  - Given $v_i$ the #hl("saturation table") $S_i$ is the set of colors assigned to its colored neighbors: $S_i = union.big_(j in delta_i)^(n) {c_j} \\ {-1}$, and $s_i = |S_i|$ is the #hl("saturation degree").
+  - Given $v_i$ the #hl[saturation table] $S_i$ is the set of colors assigned to its colored neighbors: $S_i = union.big_(j in delta_i)^(n) {c_j} \\ {-1}$, and $s_i = |S_i|$ is the #hl[saturation degree].
 
   - A total order $eq.succ$ over $V$ is defined as: $v_i eq.succ v_j <==> s_i > s_j or (s_i = s_j and d_i >= d_j)$
 ]
@@ -174,17 +174,46 @@
       #text(small-size)[
         The objective counts the number of representative vertices (i.e., used colors).
 
-
         The 1st set ensures either $x_(i, i) = 1$ or $v_i$ shares the color with a vertex $v_i'$ with $i' < i$.
 
-
-        The 2nd set expresses the color incompatibility between adjacent vertices and if $x_(j,i) = 1$ then $x_(j,j) = 1$
+        The 2nd set expresses the color incompatibility between adjacent vertices and $x_(j,i) = 1$ implies that $x_(j,j) = 1$
       ]
     ]
   ]
 ]
 
-#centered-slide[]
+#simple-slide[
+  = Standard DSATUR Algorithm
+
+  #toolbox.side-by-side(columns: (70%, 30%))[
+    #image("images/standard-dsatur.png") // , width: 70%)
+  ][
+      #text(small-size)[
+        - DSATUR is an #hl[adaptive greedy heuristic] proposed by Brélaz @Brelaz79, which colors vertices iteratively.
+
+        - Selection of the uncolored verex to color is given with order $eq.succ$, maximizing first the saturation degree and secondly the degree.
+
+        - Coloring a new vertex updates saturation, the iteration order of vertices is thus adaptive.
+      ]
+  ]
+]
+
+#focus-slide[
+  = DASTUR Matheuristic Variants
+]
+
+#simple-slide[
+  = Initialization
+
+  #text(small-size)[
+  Defining an initial partial coloring and computing the saturation table for the uncolored vertices, *before* starting the main DSATUR iterations.
+
+  _Variants_:
+  1. `maxDeg`: color the vertex with the maximum degree --- #hl[equivalent to standard DSATUR].
+  2. `col`-$n$: cosider $n$ vertices having the maximum degree and color them solving a representative ILP model for the induced subgraph --- #hl[an exact pre-processing].
+  3. `clq`: find a maximum clique (heuristically, since it is NP-hard) and color it with different colors --- #hl[an exact pre-processing]
+  4. `clq-col`-$n$: combine `clq` and `col`-$n$.
+]]
 
 #focus-slide[
   = Thank You!
