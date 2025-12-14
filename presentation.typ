@@ -199,21 +199,28 @@
 ]
 
 #focus-slide[
-  = DASTUR Matheuristic Variants
+  = DASTUR Matheuristic Variants#footnote[#text(small-size)[N. Dupin, “Matheuristic Variants of DSATUR for the Vertex Coloring Problem,” in _Metaheuristics_ 2024 @Dupin24]]
 ]
 
 #simple-slide[
   = Initialization
 
-  #text(small-size)[
   Defining an initial partial coloring and computing the saturation table for the uncolored vertices, *before* starting the main DSATUR iterations.
 
+  #text(small-size)[
   _Variants_:
-  1. `maxDeg`: color the vertex with the maximum degree --- #hl[equivalent to standard DSATUR].
-  2. `col`-$n$: cosider $n$ vertices having the maximum degree and color them solving a representative ILP model for the induced subgraph --- #hl[an exact pre-processing].
-  3. `clq`: find a maximum clique (heuristically, since it is NP-hard) and color it with different colors --- #hl[an exact pre-processing]
-  4. `clq-col`-$n$: combine `clq` and `col`-$n$.
+  1. `maxDeg`: color the vertex with the maximum degree --- #hl[equivalent to standard DSATUR by definition of $eq.succ$], it would suffer from many ties;
+  2. `col`-$n$: cosider $n$ vertices having the maximum degree and color them solving a representative ILP model for the _induced_ subgraph --- #hl[more depth pre-processing], it tries to prevent erroneous decisions in the initial steps of DSATUR;
+  3. `clq`: find a maximum clique#footnote[It is NP-hard, an heuristic can be used.] and color it with different colors --- #hl[an exact pre-processing (not heuristic)], it leads to a better initial saturation table $S$ for the uncolored vertices;
+  4. `clq-col`-$n$: combine `clq` and `col`-$n$ --- #hl[best of both worlds].
 ]]
+
+#simple-slide[
+  == Local Optimization with Larger Neighborhoods
+
+  Now, $(c)$ is a partial $k$-coloring.
+
+]
 
 #focus-slide[
   = Thank You!
