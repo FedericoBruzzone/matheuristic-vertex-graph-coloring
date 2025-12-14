@@ -218,8 +218,14 @@
 #simple-slide[
   == Local Optimization with Larger Neighborhoods
 
-  Now, $(c)$ is a partial $k$-coloring.
+  #text(small-size)[
+  $(c)$ is a partial $k$-coloring, where $k$ is the number of colors used until now.
 
+  - $C = {i in I | c_i > 0}$ is the set of colored vertices in $(c)$.
+  - $U subset {i in I | c_i = -1}$ is a subset of uncolored vertices in $(c)$.
+
+  We want to define an ILP formulation to #hl[assign] a color to each vertex $u in U$ while #hl[preserving] the colors of vertices in $C$.
+  ]
 ]
 
 #focus-slide[
