@@ -19,7 +19,7 @@
 #show: fcb-theme.with(
   aspect-ratio: "16-9", // "4-3",
   header: [],
-  footer: [],
+  footer: [_Federico Bruzzone --- University of Milan_],
   background: background,
   foreground: foreground,
   link-background: link-background,
@@ -167,8 +167,8 @@
     $
          & min_z attach(sum, t: n, b: i=1) x_(i, i) \
     s.t. & attach(sum, b: i' <= i) x_(i', i) >= 1 & quad & forall i in I  \
-         & x_(j, i) + x_(i, j) <= x_(j,j)                  & quad & forall (v_i, v_j) in E, \
-         &                                                  &      & forall i < j in I
+         & x_(j, i) + x_(j, i') <= x_(j,j)                  & quad & forall (v_i, v_i') in E, \
+         &                                                  &      & forall j <= i
     $
     ][
       #text(small-size)[
@@ -183,12 +183,11 @@
 ]
 
 #simple-slide[
-  = Standard DSATUR Algorithm
+  ===== Standard DSATUR Algorithm
 
   #toolbox.side-by-side(columns: (70%, 30%))[
     #image("images/standard-dsatur.png") // , width: 70%)
-  ][
-      #text(small-size)[
+  ][ #text(small-size)[
         - DSATUR is an #hl[adaptive greedy heuristic] proposed by Brélaz @Brelaz79, which colors vertices iteratively.
 
         - Selection of the uncolored verex to color is given with order $eq.succ$, maximizing first the saturation degree and secondly the degree.
@@ -218,14 +217,68 @@
 #simple-slide[
   == Local Optimization with Larger Neighborhoods
 
-  #text(small-size)[
-  $(c)$ is a partial $k$-coloring, where $k$ is the number of colors used until now.
+  Let $(c)$ be a partial $k$-coloring, where $k$ is the number of colors used until now.
 
   - $C = {i in I | c_i > 0}$ is the set of colored vertices in $(c)$.
   - $U subset {i in I | c_i = -1}$ is a subset of uncolored vertices in $(c)$.
 
   We want to define an ILP formulation to #hl[assign] a color to each vertex $u in U$ while #hl[preserving] the colors of vertices in $C$.
+
+  An *hybrid* formulation of #hl[assignment]-based and #hl[representative]-based formulations is used.
+]
+
+#simple-slide[
+  = Matheuristic DSATUR Formulation
+
+  #align(horizon)[
+    #toolbox.side-by-side(columns: (70%, 30%))[
+    $
+                 & min_z attach(sum,  b: u in U) x_(u,u)  \
+    s.t. #h(1em) & z_(i,l) + z_(i',l) <= 1                                                                & quad & forall (v_i, v_i') in E_U, \
+                 &                                                                                        & quad & forall l in [|1;k|] \
+                 & x_(u,i) + x_(u,i') <= x_(u,u)                                                          & quad & forall (v_i, v_i') in E_U, \
+                 &                                                                                        & quad & forall u in U, u <= i \
+                 & attach(sum,  b: i' in U : i' <= i) x_(i', i) + attach(sum,  b: l in K_u) z_(i, l) >= 1 & quad & forall u in U  \
+    $
+    ][
+      #text(small-size)[
+        #only(1)[
+          - Binary variables $x_(u, u')$ are defined only for $u <= u' in U$, when considering $E_U = {(v_u, v_u')}_(u < u' in U) subset E$.
+
+          - Binary variables $z_(u,l)$, to #hl[assign previous colors], are defined for $u in U$ and $l in [|1;k|]$ _s.t._ no neighbor $u$ has color $l$ in $(c)$ --- i.e., for all $u in U$ and $l in K_u$, where $K_u = {l in [|1;k|] | forall i in C, c_i = l ==> text("ngb")(i,j) = 0}$
+        ]
+        #only(2)[
+          - It is #hl[assignment]-based for variables $z_(u,l)$, ensuring that vertices in $U$ are assigned either a previous color $l$ in $K_u$ or share the color with another vertex in $U$.
+
+          - It is #hl[representative]-based for variables $x_(i,i')$, ensuring that vertices in $U$ sharing the same color have a representative vertex with the minimum index.
+        ]
+        #only(3)[
+          - The 1st set ensures that adjacent vertices in $U$ do not share the same #hl[existing] color $l$.
+
+          - The 2nd set ensures that two adjacent vertices in $U$ cannot share the same representative color.
+
+          - The 3rd set ensures, $forall i in U$, that either it receives a #hl[previous] color $l$ in $K_u$ or it receives a #hl[new] color represented by another vertex $i'$ in $U$ with $i' <= i$.
+        ]
+      ]
+    ]
   ]
+]
+
+#simple-slide[
+  ===== Matheuristic DSATUR Algorithm
+
+
+  #toolbox.side-by-side(columns: (63%, 30%))[
+    #image("images/matheuristic-dsatur.png") // , width: 70%)
+  ][ #text(small-size)[
+        - TODO
+
+        - TODO
+
+        - TODO
+      ]
+  ]
+
 ]
 
 #focus-slide[

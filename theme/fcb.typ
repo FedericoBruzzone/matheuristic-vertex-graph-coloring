@@ -142,5 +142,5 @@
     header-ascent: 1em,
     // margin: 0em,
   )
-  body
+  slide(body)
 }
