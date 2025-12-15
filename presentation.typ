@@ -156,8 +156,6 @@
   = Representative ILP Model#footnote[A vertex is representative of its color class if it has the minimum index among the vertices sharing the same color.
   ],  #text(tiny-size)[asymmetric and easily to LP-relax]
 
-  #v(1em)
-
   #align(horizon)[
     #toolbox.side-by-side(columns: (15%, 50%, 30%))[
       #text(small-size)[
@@ -172,11 +170,11 @@
     $
     ][
       #text(small-size)[
-        The objective counts the number of representative vertices (i.e., used colors).
+        The objective #hl[counts] the number of representative vertices (i.e., used colors).
 
-        The 1st set ensures either $x_(i, i) = 1$ or $v_i$ shares the color with a vertex $v_i'$ with $i' < i$.
+        The 1st set ensures either $x_(i', i) = 1$ (it is #hl[representative]) or its representative is a #hl[previous] vertex $i' < i$.
 
-        The 2nd set expresses the color incompatibility between adjacent vertices and $x_(j,i) = 1$ implies that $x_(j,j) = 1$
+        The 2nd set expresses the color incompatibility between adjacent vertices and $x_(j,i) = 1 ==> x_(j,j) = 1$
       ]
     ]
   ]
@@ -267,18 +265,28 @@
 #simple-slide[
   ===== Matheuristic DSATUR Algorithm
 
-
-  #toolbox.side-by-side(columns: (63%, 30%))[
+  #toolbox.side-by-side(columns: (54%, 40%))[
     #image("images/matheuristic-dsatur.png") // , width: 70%)
-  ][ #text(small-size)[
-        - TODO
+  ][#text(0.6em)[
+    - $cal(S)$ for _initialization_ induces $k$, $C$, $S$, $c$, and $W$.
 
-        - TODO
+    - Simultaneously colors $o$ vertices solving the #hl[matheuristic DSATUR ILP] formulation (the standard DSATUR have $o = 1$ and $r = 0$).
 
-        - TODO
-      ]
-  ]
+    - Having $r > 0$ ensures #hl[more depth] in the local search and the possibility to #hl[reoptimize] in later iterations ($#text[set] W := W \\ U_1$).
 
+    - $U_2$ helps the ILP in having context when coloring #hl[critical] vertices $U_1$.#footnote[
+      $o+r$  should be fine-tuned according to the ILP solver capabilities and instance features.
+    ]
+
+    - $o+r #hl[$>=$] W$ holds in the last iteration, and $U_1 = U #hl[$= W$]$ ensures both termination ($W \\ U_1 = emptyset$) and efficiency (no useless re-optimization---i.e., recoloring $r$ vertices).
+  ]]
+]
+
+
+#simple-slide[
+  = Dual Bounds
+
+  TODO
 ]
 
 #focus-slide[
