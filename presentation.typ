@@ -286,7 +286,65 @@
 #simple-slide[
   = Dual Bounds
 
-  TODO
+  #v(1em)
+
+  #text(small-size)[
+    DSATUR matheuristics allow to have both lower and upper bounds on $chi(G)$ @Boschetti23 @Dupin20.
+
+    - Any clique $Q subset V$ provides a lower bound $|Q| <= chi(G)$ --- finding a maximum clique $Q^*$ sets a strong starting dual bound.
+
+    - Solving the LP relaxation of the hybrid ILP formulation provides a dual bound for the global VCP ---  this is valid as long as no heuristic reductions are applied to the original problem constraints.
+
+    - Intermediate dual bounds can be obtained by stopping the ILP solver before global optimality.
+
+    - Techniques like those in can be used to compute dual bounds on equivalent, smaller VCP sub-problems more efficiently.
+
+    - Larger values of $n=o+r$ in LP relaxations lead to more relevant selections of nodes and tighter dual bounds.
+  ]
+]
+
+#simple-slide[
+  ===== Comparison of DSATUR matheuristics
+
+  #toolbox.side-by-side(columns: (70%, 30%))[
+    #image("images/dsatur-table1.png")
+  ][
+    #text(small-size)[
+      - Using a maximum clique to initialize saturation drastically reduces the number of colors needed from the very first steps, avoiding early errors inherent in the greedy version.
+      - While `clq-col-n` provides the best results in terms of solution quality (lower $k$), it requires higher initial computation time due to the exact resolution of subgraphs.
+    ]
+  ]
+]
+
+#simple-slide[
+  ===== Comparison with Larger Local Optimization
+
+  #toolbox.side-by-side(columns: (70%, 30%))[
+      #image("images/dsatur-table2.png")
+    ][
+      #text(small-size)[
+        - Depth and Re-optimization: Using $r>0$ allows coloring the most critical vertices ($U_1$) while maintaining vision over their neighbors ($U_2$), reducing the "threshold effects" typical of standard DSATUR ($o=1,r=0$).
+        - As $o+r$ increases, the algorithm approaches an exact solver, but computational time grows; the matheuristic finds an optimal balance for medium-sized instances.
+      ]
+    ]
+]
+
+
+#simple-slide[
+  ===== Comparison of Dual Bounds
+
+  #toolbox.side-by-side(columns: (50%, 50%))[
+    #image("images/dsatur-table3.png", width: 74%)
+  ][
+    #text(small-size)[#align(horizon)[
+      - Dual bounds obtained from local optimizations provide mathematical proof of the solution's quality, narrowing the gap between the number of colors used and the theoretical optimum.
+
+      #v(2em)
+
+      - Even linear relaxations (LP) on small subsets of nodes ($n=o+r$) significantly improve the lower bound compared to searching for the maximum clique alone.
+    ]]
+  ]
+
 ]
 
 #focus-slide[
