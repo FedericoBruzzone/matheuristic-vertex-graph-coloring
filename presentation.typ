@@ -119,7 +119,7 @@
     ][
     $
          & min attach(sum, t: k, b: c=1) y_c  \
-    s.t. & min attach(sum, t: k, b: c=1) z_(i, c) = 1 & quad & forall i in I  \
+    s.t. & attach(sum, t: k, b: c=1) z_(i, c) = 1 & quad & forall i in I  \
          & z_(i,c) + z_(j,c) <= y_c                   & quad & forall (v_i, v_j) in E, \
          &                                            &      & forall c in [|1;k|]
          $
@@ -166,7 +166,7 @@
          & min_z attach(sum, t: n, b: i=1) x_(i, i) \
     s.t. & attach(sum, b: i' <= i) x_(i', i) >= 1 & quad & forall i in I  \
          & x_(j, i) + x_(j, i') <= x_(j,j)                  & quad & forall (v_i, v_i') in E, \
-         &                                                  &      & forall j <= i
+         &                                                  &      & forall j <= i <= i'
     $
     ][
       #text(small-size)[
@@ -174,7 +174,7 @@
 
         The 1st set ensures either $x_(i', i) = 1$ (it is #hl[representative]) or its representative is a #hl[previous] vertex $i' < i$.
 
-        The 2nd set expresses the color incompatibility between adjacent vertices and $x_(j,i) = 1 ==> x_(j,j) = 1$
+        The 2nd set expresses the color incompatibility between adjacent vertices and $x_(j,*) = 1 ==> x_(j,j) = 1$
       ]
     ]
   ]
