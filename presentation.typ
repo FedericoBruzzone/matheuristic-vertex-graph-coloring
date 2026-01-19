@@ -84,7 +84,7 @@
 
   - *VCP* consists in finding a $k$-coloring of $G$ using the minimum number of colors $k$ (the _chromatic number_ $chi(G)$).
 
-  - A valid $k$-coloring $(c)$ fulfills: $forall i < j, (v_i, v_j) in E ==> c_i != c_j$ where $c_i = [|1;k|]$ is the color of $v_i$.
+  - A valid $k$-coloring $(c)$ fulfills: $forall i < j, (v_i, v_j) in E ==> c_i != c_j$ where $c_* = [|1;k|]$ is the color of $v_*$.
 
 ]
 
@@ -172,7 +172,7 @@
       #text(small-size)[
         The objective #hl[counts] the number of representative vertices (i.e., used colors).
 
-        The 1st set ensures either $x_(i', i) = 1$ (it is #hl[representative]) or its representative is a #hl[previous] vertex $i' < i$.
+        The 1st set ensures either $x_(i, i) = 1$ ($i$ is #hl[representative]) or $i$'s representative is a #hl[previous] vertex $i' < i$ (all vertices must be colored).
 
         The 2nd set expresses the color incompatibility between adjacent vertices and $x_(j,*) = 1 ==> x_(j,j) = 1$
       ]
@@ -284,26 +284,6 @@
 
 
 #simple-slide[
-  = Dual Bounds
-
-  #v(1em)
-
-  #text(small-size)[
-    DSATUR matheuristics allow to have both lower and upper bounds on $chi(G)$ @Boschetti23 @Dupin20.
-
-    - Any clique $Q subset V$ provides a lower bound $|Q| <= chi(G)$ --- finding a maximum clique $Q^*$ sets a strong starting dual bound.
-
-    - Solving the LP relaxation of the hybrid ILP formulation provides a dual bound for the global VCP ---  this is valid as long as no heuristic reductions are applied to the original problem constraints.
-
-    - Intermediate dual bounds can be obtained by stopping the ILP solver before global optimality.
-
-    - Techniques like those in can be used to compute dual bounds on equivalent, smaller VCP sub-problems more efficiently.
-
-    - Larger values of $n=o+r$ in LP relaxations lead to more relevant selections of nodes and tighter dual bounds.
-  ]
-]
-
-#simple-slide[
   ===== Comparison of DSATUR matheuristics
 
   #toolbox.side-by-side(columns: (70%, 30%))[
@@ -329,6 +309,35 @@
     ]
 ]
 
+#focus-slide[
+  = Thank You!
+]
+
+// #hidden-bibliography(
+#text(small-size)[
+  #bibliography("local.bib")
+]
+// )
+
+#simple-slide[
+  = Dual Bounds
+
+  #v(1em)
+
+  #text(small-size)[
+    DSATUR matheuristics allow to have both lower and upper bounds on $chi(G)$ @Boschetti23 @Dupin20.
+
+    - Any clique $Q subset V$ provides a lower bound $|Q| <= chi(G)$ --- finding a maximum clique $Q^*$ sets a strong starting dual bound.
+
+    - Solving the LP relaxation of the hybrid ILP formulation provides a dual bound for the global VCP ---  this is valid as long as no heuristic reductions are applied to the original problem constraints.
+
+    - Intermediate dual bounds can be obtained by stopping the ILP solver before global optimality.
+
+    - Techniques like those in can be used to compute dual bounds on equivalent, smaller VCP sub-problems more efficiently.
+
+    - Larger values of $n=o+r$ in LP relaxations lead to more relevant selections of nodes and tighter dual bounds.
+  ]
+]
 
 #simple-slide[
   ===== Comparison of Dual Bounds
@@ -347,12 +356,3 @@
 
 ]
 
-#focus-slide[
-  = Thank You!
-]
-
-// #hidden-bibliography(
-#text(small-size)[
-  #bibliography("local.bib")
-]
-// )
