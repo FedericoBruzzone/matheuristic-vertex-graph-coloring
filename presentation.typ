@@ -41,7 +41,7 @@
 // )
 
 #title-slide[
-  = Matheuristic Variants of DSATUR for the Vertex Coloring Problem
+  = Matheuristic Variants of DSATUR for the Vertex Coloring Problem @Dupin24
 
   #toolbox.side-by-side(columns: (5fr, 1fr))[
     Federico Bruzzone, #footnote[
@@ -355,4 +355,3 @@
   ]
 
 ]
-
