@@ -245,12 +245,12 @@
 
           - Binary variables $z_(u,l)$, to #hl[assign previous colors], are defined for $u in U$ and $l in [|1;k|]$ _s.t._ no neighbor $u$ has color $l$ in $(c)$ --- i.e., for all $u in U$ and $l in K_u$, where $K_u = {l in [|1;k|] | forall i in C, c_i = l ==> text("ngb")(i,j) = 0}$
         ]
+        // #only(2)[
+        //   - It is #hl[assignment]-based for variables $z_(u,l)$, ensuring that vertices in $U$ are assigned either a previous color $l$ in $K_u$ or share the color with another vertex in $U$.
+        //
+        //   - It is #hl[representative]-based for variables $x_(i,i')$, ensuring that vertices in $U$ sharing the same color have a representative vertex with the minimum index.
+        // ]
         #only(2)[
-          - It is #hl[assignment]-based for variables $z_(u,l)$, ensuring that vertices in $U$ are assigned either a previous color $l$ in $K_u$ or share the color with another vertex in $U$.
-
-          - It is #hl[representative]-based for variables $x_(i,i')$, ensuring that vertices in $U$ sharing the same color have a representative vertex with the minimum index.
-        ]
-        #only(3)[
           - The 1st set ensures that adjacent vertices in $U$ do not share the same #hl[existing] color $l$.
 
           - The 2nd set ensures that two adjacent vertices in $U$ cannot share the same representative color.
@@ -278,10 +278,29 @@
       $o+r$  should be fine-tuned according to the ILP solver capabilities and instance features.
     ]
 
-    - $o+r #hl[$>=$] W$ holds in the last iteration, and $U_1 = U #hl[$= W$]$ ensures both termination ($W \\ U_1 = emptyset$) and efficiency (no useless re-optimization---i.e., recoloring $r$ vertices).
+    - $o+r #hl[$>=$] |W|$ holds in the last iteration, and $U_1 = U #hl[$= W$]$ ensures both termination ($W \\ U_1 = emptyset$) and efficiency (no useless re-optimization---i.e., recoloring $r$ vertices).
   ]]
 ]
 
+
+#simple-slide[
+  ===== Evaluation
+
+  #text(small-size)[
+    - CPLEX 20.1 with its default parameter, except `CPX_PARAM_EPAGAP = 0.9` to stop computation to optimality knowing the objective function is integer, a time limit, and also no display in screen.
+
+    - A subset of 53 DIMACS instances removing easy instances for DSATUR (i.e., those solved optimally).
+
+  - `maxDeg`: The baseline algorithm starting with the maximum degree node.
+  - `col`-$n$: Results were generally disappointing compared to the baseline.
+  - `clq` : Significantly outperforms standard DSATUR by identifying the graph's "hardest" core first.
+  - `clq-col-80`: Providing a significant improvement over the original approach.
+  - Best clq: The top result achieved by selecting either the clq or clq-col-80 variant for each instance.
+  - Best clq+DSATUR: Highlighting the synergy between old and new methods.
+  - Best-DSATUR: Excluding the original algorithm.
+  - Best+DSATUR: Confirming that standard DSATUR is still superior for specific instances.
+  ]
+]
 
 #simple-slide[
   ===== Comparison of DSATUR matheuristics
@@ -319,39 +338,39 @@
 ]
 // )
 
-#simple-slide[
-  = Dual Bounds
-
-  #v(1em)
-
-  #text(small-size)[
-    DSATUR matheuristics allow to have both lower and upper bounds on $chi(G)$ @Boschetti23 @Dupin20.
-
-    - Any clique $Q subset V$ provides a lower bound $|Q| <= chi(G)$ --- finding a maximum clique $Q^*$ sets a strong starting dual bound.
-
-    - Solving the LP relaxation of the hybrid ILP formulation provides a dual bound for the global VCP ---  this is valid as long as no heuristic reductions are applied to the original problem constraints.
-
-    - Intermediate dual bounds can be obtained by stopping the ILP solver before global optimality.
-
-    - Techniques like those in can be used to compute dual bounds on equivalent, smaller VCP sub-problems more efficiently.
-
-    - Larger values of $n=o+r$ in LP relaxations lead to more relevant selections of nodes and tighter dual bounds.
-  ]
-]
-
-#simple-slide[
-  ===== Comparison of Dual Bounds
-
-  #toolbox.side-by-side(columns: (50%, 50%))[
-    #image("images/dsatur-table3.png", width: 74%)
-  ][
-    #text(small-size)[#align(horizon)[
-      - Dual bounds obtained from local optimizations provide mathematical proof of the solution's quality, narrowing the gap between the number of colors used and the theoretical optimum.
-
-      #v(2em)
-
-      - Even linear relaxations (LP) on small subsets of nodes ($n=o+r$) significantly improve the lower bound compared to searching for the maximum clique alone.
-    ]]
-  ]
-
-]
+// #simple-slide[
+//   = Dual Bounds
+//
+//   #v(1em)
+//
+//   #text(small-size)[
+//     DSATUR matheuristics allow to have both lower and upper bounds on $chi(G)$ @Boschetti23 @Dupin20.
+//
+//     - Any clique $Q subset V$ provides a lower bound $|Q| <= chi(G)$ --- finding a maximum clique $Q^*$ sets a strong starting dual bound.
+//
+//     - Solving the LP relaxation of the hybrid ILP formulation provides a dual bound for the global VCP ---  this is valid as long as no heuristic reductions are applied to the original problem constraints.
+//
+//     - Intermediate dual bounds can be obtained by stopping the ILP solver before global optimality.
+//
+//     - Techniques like those in can be used to compute dual bounds on equivalent, smaller VCP sub-problems more efficiently.
+//
+//     - Larger values of $n=o+r$ in LP relaxations lead to more relevant selections of nodes and tighter dual bounds.
+//   ]
+// ]
+//
+// #simple-slide[
+//   ===== Comparison of Dual Bounds
+//
+//   #toolbox.side-by-side(columns: (50%, 50%))[
+//     #image("images/dsatur-table3.png", width: 74%)
+//   ][
+//     #text(small-size)[#align(horizon)[
+//       - Dual bounds obtained from local optimizations provide mathematical proof of the solution's quality, narrowing the gap between the number of colors used and the theoretical optimum.
+//
+//       #v(2em)
+//
+//       - Even linear relaxations (LP) on small subsets of nodes ($n=o+r$) significantly improve the lower bound compared to searching for the maximum clique alone.
+//     ]]
+//   ]
+//
+// ]
