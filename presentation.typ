@@ -48,15 +48,15 @@
       ADAPT Lab -- Università degli Studi di Milano, \
       #h(1.5em) Website: #link("https://federicobruzzone.github.io/")[federicobruzzone.github.io], \
       #h(1.5em) Github: #link("https://github.com/FedericoBruzzone")[github.com/FedericoBruzzone], \
-      #h(1.5em) Email: #link("mailto:federico.bruzzone@unimi.it")[federico.bruzzone\@unimi.it] \
-      #h(1.5em) Slides: TODO
+      #h(1.5em) Email: #link("mailto:federico.bruzzone@unimi.it")[federico.bruzzone\@unimi.it], \
+      #h(1.5em) Slides: #link("https://federicobruzzone.github.io/activities/presentations/matheuristic-variants-of-DSATUR-for-the-vertex-coloring-problem.pdf")[federicobruzzone.github.io/activities/presentations/matheuristic-variants-of-DSATUR-for-the-vertex-coloring-problem.pdf]
     ] PhD Candidate
 
     // Milan, Italy -- #datetime.today().display("[day] [month repr:long] [year repr:full]")
     Milan, Italy -- 4 December 2025
   ][
     #move(dy: 10pt, dx: -50pt)[
-      #qr-code("TODO", width: 6cm, color: foreground)
+      #qr-code("https://federicobruzzone.github.io/activities/presentations/matheuristic-variants-of-DSATUR-for-the-vertex-coloring-problem.pdf", width: 6cm, color: foreground)
     ]
   ]
 ]
